@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import ScoopOption from './ScoopOption';
+import { capitalizeWord } from '../../utils/generic';
+import ToppingOption from './ToppingOption';
 
 export default function Options({ optionType }) {
   const [images, setImages] = useState(null);
@@ -13,7 +15,7 @@ export default function Options({ optionType }) {
       });
   }, [optionType]);
 
-  const ItemComponent = optionType === 'scoops' ? ScoopOption : null;
+  const ItemComponent = optionType === 'scoops' ? ScoopOption : ToppingOption;
 
   function renderImages(imgs) {
     if (imgs) {
@@ -23,7 +25,7 @@ export default function Options({ optionType }) {
             display: 'flex',
             justifyContent: 'space-between',
             width: '100%',
-            maxWidth: '700px',
+            maxWidth: '900px',
           }}
         >
           {imgs.map((img) => {
@@ -36,9 +38,9 @@ export default function Options({ optionType }) {
 
   return (
     <Box>
-      <Typography variant='h3'>{optionType}</Typography>
+      <Typography variant='h3'>{capitalizeWord(optionType)}</Typography>
       <Typography variant='body1'>$2.00 each</Typography>
-      <Typography variant='body1'>{optionType} total: $4.50</Typography>
+      <Typography variant='body1'>{capitalizeWord(optionType)} total: $4.50</Typography>
       <Box
         sx={{
           display: 'flex',
