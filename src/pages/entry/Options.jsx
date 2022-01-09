@@ -4,16 +4,26 @@ import Typography from '@mui/material/Typography';
 import ScoopOption from './ScoopOption';
 import { capitalizeWord } from '../../utils/generic';
 import ToppingOption from './ToppingOption';
+import AlertBanner from '../common/AlertBanner';
 
 export default function Options({ optionType }) {
   const [images, setImages] = useState(null);
+  const [error, setError] = useState(false);
+
   useEffect(() => {
     fetch(`http://localhost:3030/${optionType}`)
       .then((res) => res.json())
       .then((data) => {
         setImages(data);
+      })
+      .catch(() => {
+        setError(true);
       });
   }, [optionType]);
+
+  if (error) {
+    return <AlertBanner />;
+  }
 
   const ItemComponent = optionType === 'scoops' ? ScoopOption : ToppingOption;
 

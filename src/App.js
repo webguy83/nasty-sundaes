@@ -1,11 +1,10 @@
 import './App.css';
-import Options from './pages/entry/Options';
+import OrderEntry from './pages/entry/OrderEntry';
 
 function App() {
   return (
     <div className='App'>
-      <Options optionType='scoops' />
-      <Options optionType='toppings' />
+      <OrderEntry />
     </div>
   );
 }
