@@ -5,10 +5,14 @@ import ScoopOption from './ScoopOption';
 import { capitalizeWord } from '../../utils/generic';
 import ToppingOption from './ToppingOption';
 import AlertBanner from '../common/AlertBanner';
+import { useOrderDetails } from '../../contexts/OrderDetails';
+import { pricePerItem } from '../../constants';
 
 export default function Options({ optionType }) {
   const [images, setImages] = useState(null);
   const [error, setError] = useState(false);
+  const [orderDetails] = useOrderDetails();
+  const { totals } = orderDetails;
 
   useEffect(() => {
     fetch(`http://localhost:3030/${optionType}`)
@@ -49,8 +53,10 @@ export default function Options({ optionType }) {
   return (
     <Box>
       <Typography variant='h3'>{capitalizeWord(optionType)}</Typography>
-      <Typography variant='body1'>$2.00 each</Typography>
-      <Typography variant='body1'>{capitalizeWord(optionType)} total: $4.50</Typography>
+      <Typography variant='body1'>${pricePerItem[optionType]} per item</Typography>
+      <Typography variant='body1'>
+        {capitalizeWord(optionType)} total: ${totals[optionType]}
+      </Typography>
       <Box
         sx={{
           display: 'flex',
