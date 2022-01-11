@@ -1,9 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '../../../test-utils/testing-lib-utils';
 import userEvent from '@testing-library/user-event';
+import { OrderDetailsProvider } from '../../../contexts/OrderDetails';
 import Options from '../Options';
 
 it('should udpate the subtotal when the scoops change', async () => {
-  render(<Options optionType='scoops' />);
+  render(<Options optionType='scoops' />, { wrapper: OrderDetailsProvider });
 
   const scoopsSubTotal = screen.getByText('Scoops total: $', { exact: false });
   expect(scoopsSubTotal).toHaveTextContent('$0');
@@ -18,5 +19,5 @@ it('should udpate the subtotal when the scoops change', async () => {
   userEvent.clear(appleInputElm);
   userEvent.type(appleInputElm, '2');
 
-  expect(scoopsSubTotal).toHaveTextContent('$6');
+  expect(scoopsSubTotal).toHaveTextContent('$4');
 });

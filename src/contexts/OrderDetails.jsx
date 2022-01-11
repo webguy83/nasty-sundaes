@@ -13,6 +13,14 @@ export function useOrderDetails() {
   return context;
 }
 
+export function formatCurrency(amt) {
+  return Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  }).format(amt);
+}
+
 function calcSubTotal(optionType, optionCounts) {
   let optionCount = 0;
   for (const count of optionCounts[optionType].values()) {
@@ -38,9 +46,9 @@ export function OrderDetailsProvider(props) {
     const grandTotal = scoopsSubTotal + toppingsSubTotal;
 
     setTotals({
-      scoops: scoopsSubTotal,
-      toppings: toppingsSubTotal,
-      grandTotal,
+      scoops: formatCurrency(scoopsSubTotal),
+      toppings: formatCurrency(toppingsSubTotal),
+      grandTotal: formatCurrency(grandTotal),
     });
   }, [optionCounts]);
 

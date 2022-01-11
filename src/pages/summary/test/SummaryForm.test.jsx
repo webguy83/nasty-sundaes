@@ -1,4 +1,4 @@
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen, waitForElementToBeRemoved } from '../../../test-utils/testing-lib-utils';
 import userEvent from '@testing-library/user-event';
 import SummaryForm from '../SummaryForm';
 
