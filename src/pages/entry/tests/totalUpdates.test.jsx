@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { OrderDetailsProvider } from '../../../contexts/OrderDetails';
 import Options from '../Options';
 
-it('should udpate the subtotal when the scoops change', async () => {
+it('should update the subtotal when the scoops change', async () => {
   render(<Options optionType='scoops' />, { wrapper: OrderDetailsProvider });
 
   const scoopsSubTotal = screen.getByText('Scoops total: $', { exact: false });
@@ -20,4 +20,26 @@ it('should udpate the subtotal when the scoops change', async () => {
   userEvent.type(appleInputElm, '2');
 
   expect(scoopsSubTotal).toHaveTextContent('$4');
+});
+
+it('should update the subtotal when the toppings change', async () => {
+  render(<Options optionType='toppings' />);
+
+  const toppingsSubTotal = screen.getByText('Toppings total: $', { exact: false });
+  expect(toppingsSubTotal).toHaveTextContent('$0');
+
+  const cherriesCheckbox = await screen.findByRole('checkbox', { name: /cherries/i });
+  const bitchCheckbox = await screen.findByRole('checkbox', { name: /bitch/i });
+
+  expect(cherriesCheckbox).not.toBeChecked();
+  expect(bitchCheckbox).not.toBeChecked();
+
+  userEvent.click(cherriesCheckbox);
+  expect(toppingsSubTotal).toHaveTextContent('$1.50');
+
+  userEvent.click(bitchCheckbox);
+  expect(toppingsSubTotal).toHaveTextContent('$3.00');
+
+  userEvent.click(cherriesCheckbox);
+  expect(toppingsSubTotal).toHaveTextContent('$1.50');
 });
