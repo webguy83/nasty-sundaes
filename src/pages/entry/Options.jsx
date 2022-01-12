@@ -15,14 +15,23 @@ export default function Options({ optionType }) {
   const { totals } = orderDetails;
 
   useEffect(() => {
+    let mounted = true;
     fetch(`http://localhost:3030/${optionType}`)
       .then((res) => res.json())
       .then((data) => {
-        setImages(data);
+        if (mounted) {
+          setImages(data);
+        }
       })
       .catch(() => {
-        setError(true);
+        if (mounted) {
+          setError(true);
+        }
       });
+
+    return function () {
+      mounted = false;
+    };
   }, [optionType]);
 
   if (error) {
