@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import ScoopOption from './ScoopOption';
-import { capitalizeWord } from '../../utils/generic';
+import { capitalizeWord, formatCurrency } from '../../utils/generic';
 import ToppingOption from './ToppingOption';
 import AlertBanner from '../common/AlertBanner';
-import { useOrderDetails, formatCurrency } from '../../contexts/OrderDetails';
+import { useOrderDetails } from '../../contexts/OrderDetails';
 import { pricePerItem } from '../../constants';
 
 export default function Options({ optionType }) {
