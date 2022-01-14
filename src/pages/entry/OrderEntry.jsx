@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { useOrderDetails } from '../../contexts/OrderDetails';
-import SummaryForm from '../summary/SummaryForm';
 import Options from './Options';
+import Button from '@mui/material/Button';
 
 export default function OrderEntry() {
   const [details] = useOrderDetails();
@@ -12,7 +12,7 @@ export default function OrderEntry() {
       <Options optionType='scoops' />
       <Options optionType='toppings' />
       <Typography variant='h3'>Grand Total: {totals.grandTotal}</Typography>
-      <SummaryForm />
+      <Button variant='contained'>Checkout</Button>
     </div>
   );
 }

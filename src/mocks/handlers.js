@@ -6,6 +6,8 @@ export const handlers = [
       ctx.json([
         { name: 'Pineapple', imagePath: '/images/fuckpinepple.png' },
         { name: 'Apple', imagePath: '/images/fuckapple.png' },
+        { name: 'Cina', imagePath: '/images/cina.png' },
+        { name: 'Vanilla', imagePath: '/images/vanilla.png' },
       ])
     );
   }),
@@ -14,7 +16,11 @@ export const handlers = [
       ctx.json([
         { name: 'Cherries', imagePath: '/images/cherries.png' },
         { name: 'Hot Bitch', imagePath: '/images/hotbitch.png' },
+        { name: 'Mint', imagePath: '/images/mint.png' },
       ])
     );
+  }),
+  rest.post('http://localhost:3030/order', (req, res, ctx) => {
+    return res(6969696969696969);
   }),
 ];
