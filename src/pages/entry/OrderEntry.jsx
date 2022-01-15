@@ -3,7 +3,7 @@ import { useOrderDetails } from '../../contexts/OrderDetails';
 import Options from './Options';
 import Button from '@mui/material/Button';
 
-export default function OrderEntry() {
+export default function OrderEntry({ setOrderPhase }) {
   const [details] = useOrderDetails();
   const { totals } = details;
   return (
@@ -12,7 +12,9 @@ export default function OrderEntry() {
       <Options optionType='scoops' />
       <Options optionType='toppings' />
       <Typography variant='h3'>Grand Total: {totals.grandTotal}</Typography>
-      <Button variant='contained'>Checkout</Button>
+      <Button variant='contained' onClick={() => setOrderPhase('review')}>
+        Checkout
+      </Button>
     </div>
   );
 }

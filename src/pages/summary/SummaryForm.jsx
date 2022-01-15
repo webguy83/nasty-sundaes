@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Popover from '@mui/material/Popover';
 
-export default function SummaryForm() {
+export default function SummaryForm({ submitOrderClick }) {
   const [checked, setChecked] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -67,7 +67,7 @@ export default function SummaryForm() {
       >
         <Typography sx={{ p: 1 }}>No stupid ice cream will be made morons so gtfo.</Typography>
       </Popover>
-      <Button variant='contained' disabled={!checked}>
+      <Button variant='contained' disabled={!checked} onClick={submitOrderClick}>
         Confirm Order
       </Button>
     </Box>
