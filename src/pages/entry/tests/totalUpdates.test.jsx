@@ -23,28 +23,6 @@ it('should update the subtotal when the scoops change', async () => {
   expect(scoopsSubTotal).toHaveTextContent('$4');
 });
 
-it('should update the subtotal when the toppings change', async () => {
-  render(<Options optionType='toppings' />);
-
-  const toppingsSubTotal = screen.getByText('Toppings total: $', { exact: false });
-  expect(toppingsSubTotal).toHaveTextContent('$0');
-
-  const cherriesCheckbox = await screen.findByRole('checkbox', { name: /cherries/i });
-  const bitchCheckbox = await screen.findByRole('checkbox', { name: /bitch/i });
-
-  expect(cherriesCheckbox).not.toBeChecked();
-  expect(bitchCheckbox).not.toBeChecked();
-
-  userEvent.click(cherriesCheckbox);
-  expect(toppingsSubTotal).toHaveTextContent('$1.50');
-
-  userEvent.click(bitchCheckbox);
-  expect(toppingsSubTotal).toHaveTextContent('$3.00');
-
-  userEvent.click(cherriesCheckbox);
-  expect(toppingsSubTotal).toHaveTextContent('$1.50');
-});
-
 describe('grand total', () => {
   it('should start off with a grand total of 0 dollars and to be in the document', () => {
     render(<OrderEntry />);
@@ -58,9 +36,9 @@ describe('grand total', () => {
 
     const grandTotalElm = screen.getByText(/grand total/i);
 
-    const pineappleInputElm = await screen.findByRole('spinbutton', { name: /pineapple/i });
-    userEvent.clear(pineappleInputElm);
-    userEvent.type(pineappleInputElm, '1');
+    const vanillaInputElm = await screen.findByTestId('Vanilla');
+    userEvent.clear(vanillaInputElm);
+    userEvent.type(vanillaInputElm, '1');
 
     expect(grandTotalElm).toHaveTextContent('$2');
   });
@@ -69,9 +47,9 @@ describe('grand total', () => {
 
     const grandTotalElm = screen.getByText(/grand total/i);
 
-    const pineappleInputElm = await screen.findByRole('spinbutton', { name: /pineapple/i });
-    userEvent.clear(pineappleInputElm);
-    userEvent.type(pineappleInputElm, '1');
+    const vanillaInputElm = await screen.findByTestId('Vanilla');
+    userEvent.clear(vanillaInputElm);
+    userEvent.type(vanillaInputElm, '1');
 
     const bitchCheckbox = await screen.findByRole('checkbox', { name: /bitch/i });
     userEvent.click(bitchCheckbox);
@@ -83,9 +61,9 @@ describe('grand total', () => {
 
     const grandTotalElm = screen.getByText(/grand total/i);
 
-    const pineappleInputElm = await screen.findByRole('spinbutton', { name: /pineapple/i });
-    userEvent.clear(pineappleInputElm);
-    userEvent.type(pineappleInputElm, '1');
+    const vanillaInputElm = await screen.findByTestId('Vanilla');
+    userEvent.clear(vanillaInputElm);
+    userEvent.type(vanillaInputElm, '1');
 
     const bitchCheckbox = await screen.findByRole('checkbox', { name: /bitch/i });
     userEvent.click(bitchCheckbox);

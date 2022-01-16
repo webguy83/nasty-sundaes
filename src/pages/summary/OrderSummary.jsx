@@ -28,6 +28,32 @@ export default function OrderSummary({ setOrderPhase }) {
     setOrderPhase('complete');
   }
 
+  function renderToppings() {
+    if (toppings.size > 0) {
+      return (
+        <List
+          dense
+          aria-labelledby='topping-list-subheader'
+          subheader={
+            <ListSubheader
+              sx={{
+                fontFamily: 'inherit',
+                color: 'black',
+                fontSize: '32px',
+              }}
+              component='div'
+              id='topping-list-subheader'
+            >
+              Toppings: {totals.toppings}
+            </ListSubheader>
+          }
+        >
+          {renderListItems(toppings)}
+        </List>
+      );
+    }
+  }
+
   return (
     <>
       <Typography variant='h1'>Order Summary</Typography>
@@ -50,25 +76,7 @@ export default function OrderSummary({ setOrderPhase }) {
       >
         {renderListItems(scoops)}
       </List>
-      <List
-        dense
-        aria-labelledby='topping-list-subheader'
-        subheader={
-          <ListSubheader
-            sx={{
-              fontFamily: 'inherit',
-              color: 'black',
-              fontSize: '32px',
-            }}
-            component='div'
-            id='topping-list-subheader'
-          >
-            Toppings: {totals.toppings}
-          </ListSubheader>
-        }
-      >
-        {renderListItems(toppings)}
-      </List>
+      {renderToppings()}
       <Typography variant='h3'>Total: {totals.grandTotal}</Typography>
       <SummaryForm submitOrderClick={onOrderClick} />
     </>

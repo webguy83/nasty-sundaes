@@ -11,11 +11,18 @@ export default function OrderConfirmation({ setOrderPhase }) {
   const { updateItemCount, scoops, toppings, setOptionCounts } = orderDetails;
   useEffect(() => {
     if (!orderNum) {
+      let mounted = true;
       fetch('http://localhost:3030/order', { method: 'POST' })
         .then((res) => res.json())
         .then(({ orderNumber }) => {
-          setOrderNum(orderNumber);
+          if (mounted) {
+            setOrderNum(orderNumber);
+          }
         }, []);
+
+      return function () {
+        mounted = false;
+      };
     }
   });
 
@@ -47,22 +54,22 @@ export default function OrderConfirmation({ setOrderPhase }) {
           }}
         />
       );
-    } else {
-      return (
-        <>
-          <Typography variant='h1'>Thank You</Typography>
-          <Typography variant='body1'>
-            Your order number will be {orderNum}. Keep it handy you moron.
-          </Typography>
-          <Typography variant='body1'>
-            If you want to order more just hit the button below!
-          </Typography>
-          <Button variant='contained' onClick={onOrderClick}>
-            Create new order
-          </Button>
-        </>
-      );
     }
+
+    return (
+      <>
+        <Typography variant='h1'>Thank You</Typography>
+        <Typography variant='body1'>
+          Your order number will be {orderNum}. Keep it handy you moron.
+        </Typography>
+        <Typography variant='body1'>
+          If you want to order more just hit the button below!
+        </Typography>
+        <Button variant='contained' onClick={onOrderClick}>
+          Create new order
+        </Button>
+      </>
+    );
   }
   return renderContent();
 }

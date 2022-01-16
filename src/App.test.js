@@ -75,21 +75,17 @@ describe('happy order', () => {
     expect(updatedToppingsTextTotal).toBeInTheDocument();
   });
 
-  it('should not render an item in the list if there is 0 ingredient after selecting', async () => {
+  it('should not render toppings if there are no toppings in summary', async () => {
     render(<App />);
 
     const vanillaInputElm = await screen.findByTestId('Vanilla');
     userEvent.clear(vanillaInputElm);
-    userEvent.type(vanillaInputElm, '1');
-    userEvent.clear(vanillaInputElm);
-    userEvent.type(vanillaInputElm, '0');
+    userEvent.type(vanillaInputElm, '6');
 
     const orderBtnElm = screen.getByRole('button', { name: /checkout/i });
     userEvent.click(orderBtnElm);
 
-    const scoopList = screen.getByRole('list', {
-      name: /scoops/i,
-    });
-    expect(getListItems(scoopList)).toEqual([]);
+    const toppingsHeadingElm = screen.queryByText(/toppings/i);
+    expect(toppingsHeadingElm).not.toBeInTheDocument();
   });
 });

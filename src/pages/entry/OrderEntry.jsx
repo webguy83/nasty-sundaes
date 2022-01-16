@@ -6,13 +6,16 @@ import Button from '@mui/material/Button';
 export default function OrderEntry({ setOrderPhase }) {
   const [details] = useOrderDetails();
   const { totals } = details;
+
+  const disableBtn = totals.grandTotal === '$0.00';
+
   return (
     <div>
       <Typography variant='h1'>Ice Cream Fun</Typography>
       <Options optionType='scoops' />
       <Options optionType='toppings' />
       <Typography variant='h3'>Grand Total: {totals.grandTotal}</Typography>
-      <Button variant='contained' onClick={() => setOrderPhase('review')}>
+      <Button disabled={disableBtn} variant='contained' onClick={() => setOrderPhase('review')}>
         Checkout
       </Button>
     </div>
