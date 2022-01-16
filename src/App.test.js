@@ -3,17 +3,21 @@ import userEvent from '@testing-library/user-event';
 import App from './App';
 
 function getListItems(list) {
-  const { getAllByRole } = within(list);
-  return getAllByRole('listitem');
+  const { queryAllByRole } = within(list);
+  return queryAllByRole('listitem');
 }
 
 describe('happy order', () => {
   it('do all the happy order fun', async () => {
     render(<App />);
 
-    const vanillaInputElm = await screen.findByRole('spinbutton', { name: /pineapple/i });
+    const vanillaInputElm = await screen.findByTestId('Vanilla');
     userEvent.clear(vanillaInputElm);
     userEvent.type(vanillaInputElm, '7');
+
+    const appleInputElm = await screen.findByTestId('Apple');
+    userEvent.clear(appleInputElm);
+    userEvent.type(appleInputElm, '1');
 
     const cherriesCheckbox = await screen.findByRole('checkbox', { name: /cherries/i });
     const bitchCheckbox = await screen.findByRole('checkbox', { name: /bitch/i });
@@ -26,7 +30,7 @@ describe('happy order', () => {
     const orderBtnElm = screen.getByRole('button', { name: /checkout/i });
     userEvent.click(orderBtnElm);
 
-    const scoopsTextTotal = screen.getByText('Scoops: $14.00');
+    const scoopsTextTotal = screen.getByText('Scoops: $16.00');
     expect(scoopsTextTotal).toBeInTheDocument();
 
     const scoopList = screen.getByRole('list', {
@@ -34,8 +38,8 @@ describe('happy order', () => {
     });
 
     const scoopNames = getListItems(scoopList).map((scoop) => scoop.textContent);
-    expect(scoopNames).toEqual(['Pineapple']);
-    expect(scoopNames.length).toBe(1);
+    expect(scoopNames).toEqual(['Vanilla', 'Apple']);
+    expect(scoopNames.length).toBe(2);
 
     const toppingList = screen.getByRole('list', {
       name: /toppings/i,
@@ -48,7 +52,7 @@ describe('happy order', () => {
     const toppingsTextTotal = screen.getByText('Toppings: $4.50');
     expect(toppingsTextTotal).toBeInTheDocument();
 
-    const grandTotal = screen.getByText('Total: $18.50');
+    const grandTotal = screen.getByText('Total: $20.50');
     expect(grandTotal).toBeInTheDocument();
 
     const checkbox = screen.getByRole('checkbox', { name: /Terms and Conditions/i });
@@ -60,12 +64,32 @@ describe('happy order', () => {
     const orderNumberTextElm = await screen.findByText(
       'Your order number will be 6969696969696969. Keep it handy you moron.'
     );
-    expect(orderNumberTextElm).toBeInTheDocument();
+    expect(orderNumberTextElm).toBeVisible();
 
     const newOrderBtn = screen.getByRole('button', { name: 'Create new order' });
     userEvent.click(newOrderBtn);
 
-    expect(scoopsTextTotal).toHaveTextContent('Scoops: $0.00');
-    expect(toppingsTextTotal).toHaveTextContent('Toppings: $0.00');
+    const updatedScoopsTextTotal = screen.getByText('Scoops total: $0.00');
+    const updatedToppingsTextTotal = screen.getByText('Scoops total: $0.00');
+    expect(updatedScoopsTextTotal).toBeInTheDocument();
+    expect(updatedToppingsTextTotal).toBeInTheDocument();
+  });
+
+  it('should not render an item in the list if there is 0 ingredient after selecting', async () => {
+    render(<App />);
+
+    const vanillaInputElm = await screen.findByTestId('Vanilla');
+    userEvent.clear(vanillaInputElm);
+    userEvent.type(vanillaInputElm, '1');
+    userEvent.clear(vanillaInputElm);
+    userEvent.type(vanillaInputElm, '0');
+
+    const orderBtnElm = screen.getByRole('button', { name: /checkout/i });
+    userEvent.click(orderBtnElm);
+
+    const scoopList = screen.getByRole('list', {
+      name: /scoops/i,
+    });
+    expect(getListItems(scoopList)).toEqual([]);
   });
 });

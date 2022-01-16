@@ -50,11 +50,16 @@ export function OrderDetailsProvider(props) {
       const newOptionCounts = { ...optionCounts };
 
       const optionCountsMap = optionCounts[optionType];
-      optionCountsMap.set(itemName, parseInt(newItemCount));
+
+      if (parseInt(newItemCount) === 0) {
+        optionCountsMap.delete(itemName);
+      } else {
+        optionCountsMap.set(itemName, parseInt(newItemCount));
+      }
 
       setOptionCounts(newOptionCounts);
     }
-    return [{ ...optionCounts, totals, updateItemCount }];
+    return [{ ...optionCounts, totals, updateItemCount, setOptionCounts }];
   }, [optionCounts, totals]);
   return <OrderDetails.Provider value={val} {...props} />;
 }

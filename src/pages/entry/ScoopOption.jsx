@@ -39,6 +39,7 @@ export default function ScoopOption({ img }) {
         inputProps={{
           min: '0',
           max: '10',
+          'data-testid': img.name,
         }}
         sx={{
           marginLeft: '10px',

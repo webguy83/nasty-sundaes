@@ -7,28 +7,15 @@ import { useState } from 'react';
 import OrderConfirmation from './pages/order/OrderConfirmation';
 
 function App() {
-  const [orderPhase, setOrderPhase] = useState('InProgress');
+  const [orderPhase, setOrderPhase] = useState('inProgress');
 
-  function renderOriginalComps() {
-    if (orderPhase === 'InProgress' || orderPhase === 'review') {
-      return (
-        <OrderDetailsProvider>
-          {orderPhase === 'InProgress' && <OrderEntry setOrderPhase={setOrderPhase} />}
-          {orderPhase === 'review' && <OrderSummary setOrderPhase={setOrderPhase} />}
-        </OrderDetailsProvider>
-      );
-    }
-  }
-
-  function renderOrderConfirmation() {
-    if (orderPhase === 'complete') {
-      return <OrderConfirmation />;
-    }
-  }
   return (
     <Container>
-      {renderOriginalComps()}
-      {renderOrderConfirmation()}
+      <OrderDetailsProvider>
+        {orderPhase === 'inProgress' && <OrderEntry setOrderPhase={setOrderPhase} />}
+        {orderPhase === 'review' && <OrderSummary setOrderPhase={setOrderPhase} />}
+        {orderPhase === 'complete' && <OrderConfirmation setOrderPhase={setOrderPhase} />}
+      </OrderDetailsProvider>
     </Container>
   );
 }

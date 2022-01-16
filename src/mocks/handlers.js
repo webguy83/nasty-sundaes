@@ -21,6 +21,6 @@ export const handlers = [
     );
   }),
   rest.post('http://localhost:3030/order', (req, res, ctx) => {
-    return res(6969696969696969);
+    return res(ctx.json({ orderNumber: 6969696969696969 }));
   }),
 ];
